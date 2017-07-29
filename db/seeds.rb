@@ -33,60 +33,105 @@ class Seeds
         tags_recommendations: true,
         tags_measures: false,
         tags_users: false,
+        tags_sdgtargets: false,
         allow_multiple: false,
-        has_manager: true
+        has_manager: true,
+        priority: 1,
+        is_smart: false,
       )
     body.save!
 
     # Global taxonomy
     session = Taxonomy.new(
-        title: 'UN session',
+        title: 'Cycle',
         tags_recommendations: true,
         tags_measures: false,
         tags_users: false,
-        allow_multiple: false
+        allow_multiple: false,
+        priority: 2,
+        is_smart: false,
+        tags_sdgtargets: false,
       )
     session.save!
 
     # Global taxonomy
-    right = Taxonomy.new(
-        title: 'Human right',
+    country = Taxonomy.new(
+        title: 'Recommending state',
         tags_recommendations: true,
         tags_measures: false,
         tags_users: false,
-        allow_multiple: true
+        tags_sdgtargets: false,
+        allow_multiple: false,
+        is_smart: false,
+        priority: 3
       )
-    right.save!
+    country.save!
 
     # Global taxonomy
-    persons = Taxonomy.new(
-        title: 'Affected persons',
-        tags_recommendations: true,
+    sdg = Taxonomy.new(
+        title: 'SDGs',
+        tags_recommendations: false,
         tags_measures: false,
         tags_users: false,
-        allow_multiple: true
+        tags_sdgtargets: true,
+        allow_multiple: false,
+        priority: 4,
+        is_smart: false,
+        groups_sdgtargets_default: 1
       )
-    persons.save!
-    # Samoa specific taxonomy
-    cluster = Taxonomy.new(
-        title: 'Thematic cluster',
-        tags_recommendations: true,
-        tags_measures: false,
-        tags_users: false,
-        allow_multiple: true
-      )
-    cluster.save!
+    sdg.save!
 
-    # Samoa specific taxonomy
+    # NZ specific taxonomy
+    issue = Taxonomy.new(
+        title: 'Issues',
+        tags_recommendations: true,
+        tags_measures: true,
+        tags_users: false,
+        tags_sdgtargets: false,
+        allow_multiple: true,
+        priority: 5,
+        is_smart: false
+      )
+    issue.save!
+
+    # NZ specific taxonomy
+    groups = Taxonomy.new(
+        title: 'Population groups',
+        tags_recommendations: true,
+        tags_measures: true,
+        tags_users: false,
+        tags_sdgtargets: false,
+        allow_multiple: true,
+        priority: 6,
+        is_smart: false,
+      )
+    groups.save!
+
+    # NZ specific taxonomy
+    smart = Taxonomy.new(
+        title: 'SMART criteria',
+        tags_recommendations: false,
+        tags_measures: true,
+        tags_users: false,
+        tags_sdgtargets: false,
+        is_smart: true,
+        priority: 7,
+        allow_multiple: true
+      )
+    smart.save!
+
+    # NZ specific taxonomy
     org = Taxonomy.new(
-        title: 'Organisation',
+        title: 'Government agency',
         tags_recommendations: false,
         tags_measures: true,
         tags_users: true,
-        allow_multiple: true
+        tags_sdgtargets: false,
+        allow_multiple: true,
+        priority: 8,
+        is_smart: false,
       )
     org.save!
-
 
     # Set up categories
     # Human Rights Bodies http://www.ohchr.org/EN/HRBodies/Pages/HumanRightsBodies.aspx
@@ -179,387 +224,512 @@ class Seeds
         url:''
       )
 
-    # Human Rights (level 1 http://uhri.ohchr.org/search/annotations)
-    # TODO level 2 and 3 human rights
+    # SDGs
     FactoryGirl.create(
         :category,
-        taxonomy:right,
-        title:'A General framework of implementation',
+        taxonomy:sdg,
+        description:'End poverty in all its forms everywhere',
+        title:'No poverty',
+        reference: 1,
+        short_title:'SDG 1',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'End hunger, achieve food security and improved nutrition and promote sustainable agriculture',
+        title:'Zero hunger',
+        reference: 2,
+        short_title:'SDG 2',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Ensure healthy lives and promote well-being for all at all ages',
+        title:'Good Health and Well-being',
+        reference: 3,
+        short_title:'SDG 3',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all',
+        title:'Quality Education',
+        reference: 4,
+        short_title:'SDG 4',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Achieve gender equality and empower all women and girls',
+        title:'Gender Equality',
+        reference: 5,
+        short_title:'SDG 5',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Ensure availability and sustainable management of water and sanitation for all',
+        title:'Clean Water and Sanitation',
+        reference: 6,
+        short_title:'SDG 6',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Ensure access to affordable, reliable, sustainable and modern energy for all',
+        title:'Affordable and Clean Energy',
+        reference: 7,
+        short_title:'SDG 7',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all',
+        title:'Decent Work and Economic Growth',
+        reference: 8,
+        short_title:'SDG 8',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation',
+        title:'Industry, Innovation and Infrastructure',
+        reference: 9,
+        short_title:'SDG 9',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Reduce income inequality within and among countries',
+        title:'Reduced Inequalities',
+        reference: 10,
+        short_title:'SDG 10',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Make cities and human settlements inclusive, safe, resilient and sustainable',
+        title:'Sustainable Cities and Communities',
+        reference: 11,
+        short_title:'SDG 11',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Ensure sustainable consumption and production patterns',
+        title:'Responsible Consumption and Production',
+        reference: 12,
+        short_title:'SDG 12',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Take urgent action to combat climate change and its impacts by regulating emissions and promoting developments in renewable energy',
+        title:'Climate Action',
+        reference: 13,
+        short_title:'SDG 13',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Conserve and sustainably use the oceans, seas and marine resources for sustainable development',
+        title:'Life Below Water',
+        reference: 14,
+        short_title:'SDG 14',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss',
+        title:'Life on Land',
+        reference: 15,
+        short_title:'SDG 15',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Promote peaceful and inclusive societies for sustainable development, provide access to justice for all and build effective, accountable and inclusive institutions at all levels',
+        title:'Peace, Justice and Strong Institutions',
+        reference: 16,
+        short_title:'SDG 16',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:sdg,
+        description:'Strengthen the means of implementation and revitalize the global partnership for sustainable development',
+        title:'Partnerships for the Goals',
+        reference: 17,
+        short_title:'SDG 17',
+        url:''
+      )
+
+    # Human Rights Issues
+    FactoryGirl.create(
+        :category,
+        taxonomy:issue,
+        title:'Equality and non-discrimination in the criminal justice system',
+        short_title:'Justice',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:issue,
+        title:'Education',
+        short_title:'Education',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:issue,
+        title:'Health',
+        short_title:'Health',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:issue,
+        title:'Employment',
+        short_title:'Employment',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:issue,
+        title:'Harmonious relations',
+        short_title:'Relations',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:issue,
+        title:'Indigenous rights',
+        short_title:'Indigenous',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:issue,
+        title:'Canterbury earthquake recovery',
+        short_title:'Canterbury',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:issue,
+        title:'International human rights framework',
+        short_title:'Framework',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:issue,
+        title:'Democratic rights and freedoms',
+        short_title:'Democracy',
+        description:'',
+        url:''
+      )
+
+    # Population groups
+    FactoryGirl.create(
+        :category,
+        taxonomy:groups,
+        title:'Women',
+        short_title:'Women',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:groups,
+        title:'Māori',
+        short_title:'Māori',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:groups,
+        title:'Pacific peoples',
+        short_title:'Pacific',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:groups,
+        title:'Children',
+        short_title:'Children',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:groups,
+        title:'People with disabilities',
+        short_title:'Disabilities',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:groups,
+        title:'Refugees, Migrants and Asylum seekers',
+        short_title:'Migrants',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:groups,
+        title:'Sexual orientation, Gender identity and Intersex',
+        short_title:'SOGII',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:groups,
+        title:'People of Canterbury',
+        short_title:'Canterbury',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:groups,
+        title:'All people',
+        short_title:'All',
+        description:'',
+        url:''
+      )
+
+    # Agencies
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Department of Corrections',
+        short_title:'Corrections',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'New Zealand Police',
+        short_title:'Police',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Ministry of Justice',
+        short_title:'Justice',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Ministry of Social Development',
+        short_title:'MSD',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Ministry of Business, Innovation & Employment ',
+        short_title:'MBIE',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Office of the Attorney-General',
+        short_title:'AGO',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Office of Ethnic Communities',
+        short_title:'OEC',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Ministry for Women',
+        short_title:'Women',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Ministry of Education',
+        short_title:'Education',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Accident Compensation Corporation',
+        short_title:'ACC',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Canterbury Earthquake Recovery Authority',
+        short_title:'CERA',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Te Taura Whiri i te Reo Māori - Māori Language Commission',
+        short_title:'TTW',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Ministry of Health',
+        short_title:'Health',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Office of Disability Issues',
+        short_title:'ODI',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Ministry of Pacific Island Affairs',
+        short_title:'MPIA',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'State Services Commission',
+        short_title:'SSC',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'Te Puni Kokiri',
+        short_title:'TPK',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:"Children's Action Plan Directorate",
+        short_title:'CAP',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'State Services Commission',
+        short_title:'SSC',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:org,
+        title:'State Services Commission',
+        short_title:'SSC',
+        description:'',
+        url:''
+      )
+
+  # SMART
+    FactoryGirl.create(
+        :category,
+        taxonomy:smart,
+        title:'Specific',
+        short_title:'S',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:smart,
+        title:'Measurable',
+        short_title:'M',
+        description:'',
+        url:''
+      )
+    FactoryGirl.create(
+        :category,
+        taxonomy:smart,
+        title:'Assignable',
         short_title:'A',
         description:'',
         url:''
       )
     FactoryGirl.create(
         :category,
-        taxonomy:right,
-        title:'B Universal or cross-cutting issues',
-        short_title:'B',
+        taxonomy:smart,
+        title:'Result-oriented',
+        short_title:'R',
         description:'',
         url:''
       )
     FactoryGirl.create(
         :category,
-        taxonomy:right,
-        title:'D Civil & political rights',
-        short_title:'D',
+        taxonomy:smart,
+        title:'Targeted',
+        short_title:'T',
         description:'',
         url:''
       )
-    FactoryGirl.create(
-        :category,
-        taxonomy:right,
-        title:'E Economic, social and cultural rights',
-        short_title:'E',
-        description:'',
-        url:''
-      )
-    FactoryGirl.create(
-        :category,
-        taxonomy:right,
-        title:'F Specific persons or groups',
-        short_title:'F',
-        description:'',
-        url:''
-      )
-    FactoryGirl.create(
-        :category,
-        taxonomy:right,
-        title:'G1 Members of minorities',
-        short_title:'G1',
-        description:'',
-        url:''
-      )
-    FactoryGirl.create(
-        :category,
-        taxonomy:right,
-        title:'G3 Indigenous peoples',
-        short_title:'G3',
-        description:'',
-        url:''
-      )
-    FactoryGirl.create(
-        :category,
-        taxonomy:right,
-        title:'G4 Migrants',
-        short_title:'G4',
-        description:'',
-        url:''
-      )
-    FactoryGirl.create(
-        :category,
-        taxonomy:right,
-        title:'G5 Refugees & asylum seekers',
-        short_title:'G5',
-        description:'',
-        url:''
-      )
-    FactoryGirl.create(
-        :category,
-        taxonomy:right,
-        title:'G6 Internally displaced persons',
-        short_title:'G6',
-        description:'',
-        url:''
-      )
-    FactoryGirl.create(
-        :category,
-        taxonomy:right,
-        title:'H1 Human rights defenders',
-        short_title:'H1',
-        description:'',
-        url:''
-      )
-
-
-      # Affected Persons (http://uhri.ohchr.org/search/annotations)
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Children',
-          short_title:'Children',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Children in street situations',
-          short_title:'CSS',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Disappeared persons',
-          short_title:'Disappeared',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Educational staff',
-          short_title:'Edu',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'General',
-          short_title:'General',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Girls',
-          short_title:'Girls',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Human rights defenders',
-          short_title:'HRD',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Indigenous peoples',
-          short_title:'Indigenous',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Internally displaced persons',
-          short_title:'IDP',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Judges, lawyers and prosecutors',
-          short_title:'JLP',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Law enforcement / police officials',
-          short_title:'Law',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Lesbian, gay, bisexual and transgender and intersex persons (LGBTI)',
-          short_title:'LGBTI',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Media',
-          short_title:'Media',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Medical staff',
-          short_title:'Medical',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Mercenaries',
-          short_title:'Mercenaries',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Migrants',
-          short_title:'Migrants',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Military staff',
-          short_title:'Military',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Minorities / racial, ethnic, linguistic, religious or descent-based groups',
-          short_title:'Minorities',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Non-citizens',
-          short_title:'Non-citizens',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Older persons',
-          short_title:'Old',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Persons affected by armed conflict',
-          short_title:'Armed conflict',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Persons deprived of their liberty',
-          short_title:'Liberty',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Persons living in poverty',
-          short_title:'Poverty',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Persons living in rural areas',
-          short_title:'Rural',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Persons living with HIV/AIDS',
-          short_title:'HIV',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Persons with disabilities',
-          short_title:'Disabilities',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Prison officials',
-          short_title:'Prison officials',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Private security',
-          short_title:'Private security',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Public officials',
-          short_title:'Public officials',
-          description:'',
-          url:''
-        )
-        FactoryGirl.create(
-            :category,
-            taxonomy:persons,
-            title:'Refugees & asylum seekers',
-            short_title:'Refugees',
-            description:'',
-            url:''
-          )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Rural women',
-          short_title:'Rural women',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Social workers',
-          short_title:'Social workers',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Stateless persons',
-          short_title:'Stateless',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Vulnerable persons/groups',
-          short_title:'Vulnerable',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Women',
-          short_title:'Women',
-          description:'',
-          url:''
-        )
-      FactoryGirl.create(
-          :category,
-          taxonomy:persons,
-          title:'Youth',
-          short_title:'Youth',
-          description:'',
-          url:''
-        )
   end
 
   def development_seeds!
@@ -569,13 +739,6 @@ class Seeds
       user.roles << Role.find_by(name: 'manager')
       user.save!
     end
-
-    # create test data, configure in spec/factories/
-    FactoryGirl.create_list(:recommendation, 50)
-    FactoryGirl.create_list(:measure, 50)
-    FactoryGirl.create_list(:indicator, 50)
-
-    FactoryGirl.create_list(:category, 10, taxonomy: org)
   end
 
   def log(msg, level: :info)
