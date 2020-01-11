@@ -7,4 +7,7 @@ class SdgtargetCategory < ApplicationRecord
   validates :category_id, uniqueness: { scope: :sdgtarget_id }
   validates :sdgtarget_id, presence: true
   validates :category_id, presence: true
+
+  validates_with TagsValidator
+  
 end
