@@ -6,6 +6,14 @@ RSpec.describe UserCategory, type: :model do
   it { should validate_presence_of(:user_id) }
   it { should validate_presence_of(:category_id) }
 
+  context "Validate uniqueness" do
+    before do 
+      FactoryGirl.create(:user_category)
+      FactoryGirl.create(:category)
+    end
+    it { should validate_uniqueness_of(:user_id).scoped_to(:category_id) }
+  end
+
   context "Validate tags option from Taxonomy" do
     it "Should create with tags allowed" do
       category = FactoryGirl.create(:category)
@@ -20,7 +28,7 @@ RSpec.describe UserCategory, type: :model do
     it "Should not create with tags not allowed" do
       category = FactoryGirl.create(:category)
       user = FactoryGirl.create(:user)
-      taxonomy = FactoryGirl.create(:taxonomy, :tags_users)
+      taxonomy = FactoryGirl.create(:taxonomy, :tags_users_not_allowed)
       category.taxonomy_id = taxonomy.id
       category.save!
 

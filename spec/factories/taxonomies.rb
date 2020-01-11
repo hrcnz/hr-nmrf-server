@@ -8,18 +8,18 @@ FactoryGirl.define do
     allow_multiple false
   end
 
-  trait :tags_recommendations do
+  trait :tags_recommendations_not_allowed do
     tags_recommendations false
   end
 
-  trait :tags_users do
+  trait :tags_users_not_allowed do
     tags_users false
   end
 
-  trait :tags_sdgtargets do
+  trait :tags_sdgtargets_not_allowed do
     tags_sdgtargets false
   end
-  trait :tags_measures do
+  trait :tags_measures_not_allowed do
     tags_measures false
   end
 end
